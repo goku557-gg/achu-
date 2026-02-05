@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Achuu 💗</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #fff0f3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 { color: #ff4d6d; font-size: 2rem; margin-bottom: 20px; }
+        
+        /* Message styling */
+        .message-text {
+            color: #4a4a4a;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            text-align: left;
+            white-space: pre-line; /* Keeps your spacing/emojis perfect */
+            margin-top: 15px;
+        }
+
+        .buttons { margin-top: 30px; position: relative; min-height: 60px; }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            font-weight: bold;
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
+        #noBtn { background-color: #adb5bd; color: white; }
+
+        .hidden { display: none; }
+        img { width: 180px; border-radius: 15px; margin-bottom: 10px; }
+
+        .heart {
+            position: absolute;
+            color: #ffb3c1;
+            font-size: 20px;
+            animation: float 5s linear infinite;
+            top: 100vh;
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="question-container" class="container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXp1ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNwSULPk2p/giphy.gif" alt="Flowers">
+        <h1>Will you be my Valentine, Achuu? 💗💐</h1>
+        <div class="buttons">
+            <button id="yesBtn">Yes! 🥰</button>
+            <button id="noBtn">No 😢</button>
+        </div>
+    </div>
+
+    <div id="celebration" class="hidden container">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXp1ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/lTQF0ODLLjhza/giphy.gif" alt="Yay">
+        <div class="message-text">
+Happy Valentine's day achuuu 🥹😘, so enich ente first valentine's day ahh enich entha parayandey ennu onnum arinjuda eppo manasli varunney ellam athupoley parayam 😌💗. 
+
+As I have mentioned a hundred times before, nee enik sherikkum oru blessing ahh 🥹. My only dream and wish was you, and now I have that with me. Life long motham koode vennonum ind, and koode kannum ariyam just otta kariyam, when you're with me, I am always happy. Ethin munne orikkallum ellathe oru happiness enik eppo ind. 
+
+From the moment I wake up until I go to sleep, I can feel your presence with me 🫠. Eppo exam time ahnallo achuun enik nallonam miss adikkuind 🫠🫠. Nee ellathe oru secondum pattunillan realize cheythu. Hours varathe erikkum, I am losing my strength 🫠🫠. Miss adichattu vayyathe avum but achuu varupoo ok avutto ☺️😚. 
+
+Enich veluthayi onnum arinjuda but the person I admired for two years was the best choice of my life 😩. I am being treated the way I always wanted 🥺. Pinne 2 years admire cheythekkallum a thousand times more, admire cheyan eppo pattuind 🫠. 
+
+And 😭 you're more beautiful every day; I am falling for you again and again, even harder 😭😭💗. I love you more than my life 🥺💗 and I only want a life with you 🫠🫠.
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionContainer = document.getElementById('question-container');
+        const celebration = document.getElementById('celebration');
+
+        let yesScale = 1;
+
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+
+            yesScale += 0.3;
+            yesBtn.style.transform = `scale(${yesScale})`;
+        });
+
+        yesBtn.addEventListener('click', () => {
+            questionContainer.classList.add('hidden');
+            celebration.classList.remove('hidden');
+            // Scroll to top to make sure she reads the start of the message
+            window.scrollTo(0, 0);
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '🌸';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
