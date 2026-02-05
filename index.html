@@ -11,7 +11,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            background-color: #fff0f3;
+            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow-x: hidden;
             text-align: center;
@@ -22,26 +22,43 @@
         .container {
             z-index: 10;
             background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3);
             max-width: 500px;
             width: 90%;
+            border: 2px solid white;
         }
 
-        h1 { color: #ff4d6d; font-size: 2rem; margin-bottom: 20px; }
+        /* Large Animated Heart instead of a GIF */
+        .big-heart {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: heartBeat 1.2s infinite;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+
+        h1 { color: #ff4d6d; font-size: 1.8rem; margin-bottom: 20px; }
         
-        /* Message styling */
         .message-text {
             color: #4a4a4a;
             line-height: 1.6;
             font-size: 1.1rem;
             text-align: left;
-            white-space: pre-line; /* Keeps your spacing/emojis perfect */
-            margin-top: 15px;
+            white-space: pre-line;
+            margin-top: 20px;
         }
 
-        .buttons { margin-top: 30px; position: relative; min-height: 60px; }
+        .buttons { margin-top: 30px; position: relative; min-height: 100px; }
 
         button {
             padding: 15px 35px;
@@ -49,36 +66,36 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s ease;
             font-weight: bold;
+            transition: all 0.3s ease;
         }
 
         #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
-        #noBtn { background-color: #adb5bd; color: white; }
+        #noBtn { background-color: #adb5bd; color: white; position: absolute; }
 
         .hidden { display: none; }
-        img { width: 180px; border-radius: 15px; margin-bottom: 10px; }
 
-        .heart {
+        /* Floating elements animation */
+        .floating {
             position: absolute;
-            color: #ffb3c1;
-            font-size: 20px;
-            animation: float 5s linear infinite;
-            top: 100vh;
-            z-index: 1;
+            font-size: 35px;
+            animation: floatUp 4s ease-out forwards;
+            bottom: -50px;
+            z-index: 100;
+            pointer-events: none;
         }
 
-        @keyframes float {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-110vh) scale(2); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
     <div id="question-container" class="container">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXp1ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNwSULPk2p/giphy.gif" alt="Flowers">
-        <h1>Will you be my Valentine, Achuu? 💗💐</h1>
+        <div class="big-heart">💝</div>
+        <h1>Will you be my Valentine, <br> Achuu? 💗💐</h1>
         <div class="buttons">
             <button id="yesBtn">Yes! 🥰</button>
             <button id="noBtn">No 😢</button>
@@ -86,7 +103,7 @@
     </div>
 
     <div id="celebration" class="hidden container">
-        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHp1eXp1ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6ZzR6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/lTQF0ODLLjhza/giphy.gif" alt="Yay">
+        <div class="big-heart">😘</div>
         <div class="message-text">
 Happy Valentine's day achuuu 🥹😘, so enich ente first valentine's day ahh enich entha parayandey ennu onnum arinjuda eppo manasli varunney ellam athupoley parayam 😌💗. 
 
@@ -108,34 +125,40 @@ And 😭 you're more beautiful every day; I am falling for you again and again, 
 
         let yesScale = 1;
 
+        // No button logic
         noBtn.addEventListener('mouseover', () => {
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.position = 'absolute';
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
-
-            yesScale += 0.3;
+            yesScale += 0.2;
             yesBtn.style.transform = `scale(${yesScale})`;
         });
 
+        // Yes button logic
         yesBtn.addEventListener('click', () => {
             questionContainer.classList.add('hidden');
             celebration.classList.remove('hidden');
-            // Scroll to top to make sure she reads the start of the message
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Explosion of kisses and hearts
+            setInterval(() => createEmoji('💋'), 100);
+            setInterval(() => createEmoji('😘'), 200);
+            setInterval(() => createEmoji('💖'), 300);
         });
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '🌸';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+        function createEmoji(symbol) {
+            const emoji = document.createElement('div');
+            emoji.classList.add('floating');
+            emoji.innerHTML = symbol;
+            emoji.style.left = Math.random() * 100 + 'vw';
+            emoji.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(emoji);
+            setTimeout(() => emoji.remove(), 4000);
         }
-        setInterval(createHeart, 300);
+
+        // Background flowers
+        setInterval(() => createEmoji('🌸'), 1000);
     </script>
 </body>
 </html>
