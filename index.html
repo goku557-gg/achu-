@@ -6,104 +6,42 @@
     <title>For Achuu 💗</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow-x: hidden;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; background: linear-gradient(135deg, #fff0f3 0%, #ffccd5 100%);
+            font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; margin: 0; padding: 20px;
         }
-
         .container {
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3);
-            max-width: 500px;
-            width: 90%;
-            border: 2px solid white;
+            z-index: 10; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px);
+            padding: 30px; border-radius: 30px; box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3);
+            max-width: 500px; width: 95%; border: 2px solid white;
         }
-
-        /* Large Animated Heart instead of a GIF */
-        .big-heart {
-            font-size: 80px;
-            margin-bottom: 20px;
-            display: inline-block;
-            animation: heartBeat 1.2s infinite;
-        }
-
-        @keyframes heartBeat {
-            0% { transform: scale(1); }
-            15% { transform: scale(1.25); }
-            30% { transform: scale(1); }
-            45% { transform: scale(1.15); }
-            60% { transform: scale(1); }
-        }
-
-        h1 { color: #ff4d6d; font-size: 1.8rem; margin-bottom: 20px; }
-        
-        .message-text {
-            color: #4a4a4a;
-            line-height: 1.6;
-            font-size: 1.1rem;
-            text-align: left;
-            white-space: pre-line;
-            margin-top: 20px;
-        }
-
-        .buttons { margin-top: 30px; position: relative; min-height: 100px; }
-
-        button {
-            padding: 15px 35px;
-            font-size: 1.2rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        #yesBtn { background-color: #ff4d6d; color: white; box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); }
+        h1 { color: #ff4d6d; }
+        .buttons { margin-top: 25px; position: relative; min-height: 80px; }
+        button { padding: 12px 30px; font-size: 1.1rem; border: none; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        #yesBtn { background-color: #ff4d6d; color: white; }
         #noBtn { background-color: #adb5bd; color: white; position: absolute; }
-
+        .message-text { color: #4a4a4a; line-height: 1.6; text-align: left; white-space: pre-line; margin-top: 20px; }
         .hidden { display: none; }
-
-        /* Floating elements animation */
-        .floating {
-            position: absolute;
-            font-size: 35px;
-            animation: floatUp 4s ease-out forwards;
-            bottom: -50px;
-            z-index: 100;
-            pointer-events: none;
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.5); opacity: 1; }
-            100% { transform: translateY(-110vh) scale(2); opacity: 0; }
-        }
+        .floating { position: absolute; font-size: 30px; animation: float 4s forwards; bottom: -50px; }
+        @keyframes float { 0% { transform: translateY(0); opacity: 1; } 100% { transform: translateY(-110vh); opacity: 0; } }
+        #music-btn { position: fixed; bottom: 20px; right: 20px; background: white; padding: 15px; border-radius: 50%; cursor: pointer; border: 2px solid #ff4d6d; z-index: 100; }
     </style>
 </head>
 <body>
 
-    <div id="question-container" class="container">
-        <div class="big-heart">💝</div>
-        <h1>Will you be my Valentine, <br> Achuu? 💗💐</h1>
+    <audio id="bgMusic" loop><source src="song.mp3" type="audio/mpeg"></audio>
+    <div id="music-btn" onclick="toggleMusic()">🎵</div>
+
+    <div id="main-card" class="container">
+        <h1>Will you be my Valentine, Achuu? 💗</h1>
         <div class="buttons">
             <button id="yesBtn">Yes! 🥰</button>
             <button id="noBtn">No 😢</button>
         </div>
     </div>
 
-    <div id="celebration" class="hidden container">
-        <div class="big-heart">😘</div>
+    <div id="secret-message" class="hidden container">
+        <h1>I Love You! ✨</h1>
         <div class="message-text">
 Happy Valentine's day achuuu 🥹😘, so enich ente first valentine's day ahh enich entha parayandey ennu onnum arinjuda eppo manasli varunney ellam athupoley parayam 😌💗. 
 
@@ -120,45 +58,30 @@ And 😭 you're more beautiful every day; I am falling for you again and again, 
     <script>
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
-        const questionContainer = document.getElementById('question-container');
-        const celebration = document.getElementById('celebration');
+        const bgMusic = document.getElementById('bgMusic');
+        
+        function toggleMusic() { bgMusic.paused ? bgMusic.play() : bgMusic.pause(); }
+        
+        // Starts music when she taps anywhere
+        document.body.addEventListener('click', () => { bgMusic.play().catch(e => {}); }, { once: true });
 
-        let yesScale = 1;
-
-        // No button logic
         noBtn.addEventListener('mouseover', () => {
-            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-            noBtn.style.left = `${x}px`;
-            noBtn.style.top = `${y}px`;
-            yesScale += 0.2;
-            yesBtn.style.transform = `scale(${yesScale})`;
+            noBtn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            noBtn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
         });
 
-        // Yes button logic
         yesBtn.addEventListener('click', () => {
-            questionContainer.classList.add('hidden');
-            celebration.classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Explosion of kisses and hearts
-            setInterval(() => createEmoji('💋'), 100);
-            setInterval(() => createEmoji('😘'), 200);
-            setInterval(() => createEmoji('💖'), 300);
+            document.getElementById('main-card').classList.add('hidden');
+            document.getElementById('secret-message').classList.remove('hidden');
+            setInterval(() => spawnEmoji('💋'), 150);
+            setInterval(() => spawnEmoji('💖'), 400);
         });
 
-        function createEmoji(symbol) {
-            const emoji = document.createElement('div');
-            emoji.classList.add('floating');
-            emoji.innerHTML = symbol;
-            emoji.style.left = Math.random() * 100 + 'vw';
-            emoji.style.animationDuration = (Math.random() * 2 + 2) + 's';
-            document.body.appendChild(emoji);
-            setTimeout(() => emoji.remove(), 4000);
+        function spawnEmoji(type) {
+            const e = document.createElement('div'); e.classList.add('floating');
+            e.innerHTML = type; e.style.left = Math.random() * 100 + 'vw';
+            document.body.appendChild(e); setTimeout(() => e.remove(), 4000);
         }
-
-        // Background flowers
-        setInterval(() => createEmoji('🌸'), 1000);
     </script>
 </body>
 </html>
